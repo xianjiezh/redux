@@ -66,7 +66,9 @@ function combineReducers(reducers) {
   return function(state = {}, action) {
     let newReducers = {}
     reducerKeys.forEach(key => {
-      newReducers[key] = reducers[key](state[key], action)
+      const reducer = reducers[key]
+      const newState = reducer(state[key], action)
+      newReducers[key] = newState
     })
     return newReducers
   }
@@ -99,3 +101,6 @@ store.dispatch({
   type: 'SET_DESCRIPTION',
   description: 'full stack'
 })
+
+// 每个 reducer 里面都会执行一遍...
+// 好坑 
